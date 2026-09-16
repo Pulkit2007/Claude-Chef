@@ -1,6 +1,7 @@
 import { useState } from "react"
 import ClaudeRecipe from "./ClaudeRecipe"
 import IngredientList from "./IngredientList"
+import { getRecipeFromGemini } from "./api"
 
 export default function Main() {
 
@@ -10,6 +11,8 @@ export default function Main() {
         <li key={ingredient}>{ingredient}</li>
     ))
 
+
+
     function addIngredient(formData) {
 
         const newIngredient = formData.get("ingredient")
@@ -17,10 +20,23 @@ export default function Main() {
 
     }
 
-    const [recipeshown, setrecipeshown] = useState(false)
+    const [recipe, setRecipe] = useState("")
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState("")
 
-    function togglerecipeshown(){
-        setrecipeshown(prev=> !prev)
+    async function getrecipe() {
+        setLoading(true)
+        setError("")
+
+        try {
+            const recipemd = await getRecipeFromGemini(ingredients)
+            setRecipe(recipemd)
+        } catch (err) {
+            console.error(err)
+            setError("Unable to generate a recipe.")
+        } finally {
+            setLoading(false)
+        }
     }
 
 
@@ -36,9 +52,11 @@ export default function Main() {
                 />
                 <button>Add Ingredient</button>
             </form>
-            {ingredients.length > 3 ? <IngredientList ingredients={ingredients} togglerecipeshown={togglerecipeshown} /> : null}
-            {recipeshown && <ClaudeRecipe/>}
-            
+            {ingredients.length > 3 ? <IngredientList ingredients={ingredients} togglerecipeshown={getrecipe} /> : null}
+            {loading && <p>Generating recipe...</p>}
+            {error && <p>{error}</p>}
+            {recipe && <ClaudeRecipe recipe={recipe} />}
+
 
 
         </main>
