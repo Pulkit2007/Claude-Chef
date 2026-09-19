@@ -1,15 +1,27 @@
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import ClaudeRecipe from "./ClaudeRecipe"
 import IngredientList from "./IngredientList"
 import { getRecipeFromGemini } from "./api"
 
 export default function Main() {
 
-    const [ingredients, setIngredients] = useState(["Pizza Sauce", "Bread", "Vegies", "cheese"])
+    const [ingredients, setIngredients] = useState([])
+    const [recipe, setRecipe] = useState("")
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState("")
+
+    const recipeSection = useRef(null)
 
     const ingredientsListItems = ingredients.map((ingredient) => (
         <li key={ingredient}>{ingredient}</li>
     ))
+
+    useEffect(() => {
+
+        if (recipe !== "" && recipeSection.current !== null) {
+            recipeSection.current.scrollIntoView({behavior: "smooth"})
+        }
+    }, [recipe  ])
 
 
 
@@ -20,9 +32,7 @@ export default function Main() {
 
     }
 
-    const [recipe, setRecipe] = useState("")
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState("")
+
 
     async function getrecipe() {
         setLoading(true)
@@ -52,7 +62,7 @@ export default function Main() {
                 />
                 <button>Add Ingredient</button>
             </form>
-            {ingredients.length > 3 ? <IngredientList ingredients={ingredients} togglerecipeshown={getrecipe} /> : null}
+            {ingredients.length > 3 ? <IngredientList recipeSection={recipeSection} ingredients={ingredients} togglerecipeshown={getrecipe} /> : null}
             {loading && <p>Generating recipe...</p>}
             {error && <p>{error}</p>}
             {recipe && <ClaudeRecipe recipe={recipe} />}
