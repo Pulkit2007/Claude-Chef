@@ -1,45 +1,54 @@
-# 🍳 Claude Chef
+# Claude Chef
 
-A simple recipe generator built with **React** that helps you discover recipes based on the ingredients you have.
+A simple AI-powered recipe generator that turns the ingredients you have into recipes.
 
-## ✨ Features
+[Live Demo](#) · [Report a Bug](https://github.com/Pulkit2007/Claude-Chef/issues)
 
-* Add ingredients you have
-* Get AI-powered recipe suggestions
-* Clean and simple UI
-* Built with React and Vite
+## Preview
 
-## 🛠️ Tech Stack
+![Claude Chef Preview](./screenshots/preview.png)
+
+## Features
+
+* Add ingredients you have available
+* Generate recipes using AI
+* Get complete recipes with ingredients and instructions
+* Clean and responsive interface
+
+## Built With
 
 * React
 * Vite
 * JavaScript
 * CSS
-* Recipe/API integration
+* Gemini API
 
-## 🚀 Getting Started
+## Getting Started
 
-Clone the repository:
+### Installation
 
 ```bash
 git clone https://github.com/Pulkit2007/Claude-Chef.git
 cd Claude-Chef
-```
-
-Install dependencies:
-
-```bash
 npm install
 ```
 
-Start the development server:
+### Environment Variables
+
+Create a `.env` file in the root directory:
+
+```env
+VITE_GEMINI_API_KEY=your_api_key
+```
+
+### Run locally
 
 ```bash
 npm run dev
 ```
 
-Then open the local URL shown in your terminal.
+Open the local development URL provided by Vite.
 
-## 📌 About
+## License
 
-Claude Chef was built as a learning project while exploring **React, APIs, state management, and frontend development**.
+This project is open source and available under the [MIT License](LICENSE).
